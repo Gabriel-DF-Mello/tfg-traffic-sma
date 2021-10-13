@@ -6,6 +6,8 @@ import jason.asSyntax.parser.*;
 
 import java.util.Scanner;
 import java.util.logging.*;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -15,6 +17,7 @@ public class IntegrationEnvironment extends Environment {
     private Logger logger = Logger.getLogger("traffic."+IntegrationEnvironment.class.getName());
     ServerSocket servidor;
     Socket cliente;
+    DatagramSocket socket;
     
 
     /** Called before the MAS execution with the args informed in .mas2j */
@@ -23,13 +26,16 @@ public class IntegrationEnvironment extends Environment {
         super.init(args);
         
         try {
-			addPercept(ASSyntax.parseLiteral("percept(demo)"));
+			addPercept(ASSyntax.parseLiteral("quemEstaAi"));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
         
-        criaServerSocket();
-        aguardaClientes();
+        criaServerSocketTCP(1234);
+        aguardaClientesTCP();
+    	//ou
+        //criaServerSocketUDP(porta);
+        //aguardaClientesUDP();
     }
 
     @Override
@@ -40,7 +46,7 @@ public class IntegrationEnvironment extends Environment {
         //veio a ação parar um carro
         if (action.getFunctor().equals("parar")) {
 	        try {
-	                Communicator.enviaMensagem(cliente, acao); //envia uma mensagem pela rede
+	            Communicator.sendMessageTCP(cliente, acao); //envia uma mensagem pela rede
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	        }   
@@ -54,33 +60,35 @@ public class IntegrationEnvironment extends Environment {
         super.stop();
     }
     
-    
-    private void criaServerSocket() {
+
+    private void criaServerSocketTCP(int porta) {
         try {
-            servidor = new ServerSocket(1234);
-            System.out.println("Server escutando na porta 1234");
-        } catch (Exception ex) {
+            servidor = new ServerSocket(porta,10);
+            System.out.println("Aguardando simulador Unity na porta " + porta);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-    private void aguardaClientes() {
+    private void aguardaClientesTCP() {
         try {
             /*Bloqueia esperando por uma conexão através do accept()
              Ao receber a conexão, ele receberá como retorno uma referência do Socket do cliente*/
             cliente = servidor.accept();
-            System.out.println("Recebi uma conexão de um cliente");
+            System.out.println("Recebi a conexão com simulador Unity");
             new Thread() {
 	            public void run() {
-	                System.out.println("Iniciada a Thread para recebimento de dados");
+	                System.out.println("Iniciada a Thread para recebimento percepções");
 	                try {
 	                    while (true) {
-	                        String mensagem = Communicator.recebeMensagem(cliente); //recebe uma string enviada pela rede
+	                        String json = Communicator.receiveMessageTCP(cliente); 
 	                        
-	                        System.out.println("Mensagem recebida: " + mensagem);
+	                        System.out.println("Mensagem recebida: " + json);
 	                        
 	                        //tratar a msg que chega do unity
 	                        
-	                        //addPercept(ASSyntax.parseLiteral(mensagem));
+	                        addPercept(ASSyntax.parseLiteral(json.toString()));
+	                        //addPercept(ASSyntax.parseLiteral("quemEstaAi"));
 	                    }
 	                } catch (Exception e) {
 	                    e.printStackTrace();

@@ -4,8 +4,10 @@
 
 /* Initial goals */
 
-!start.
 
 /* Plans */
 
-+!start : true <- .print("hello world.").
+
++quemEstaAi : true
+	<-
+	.print("Estou ativo no cenário").
