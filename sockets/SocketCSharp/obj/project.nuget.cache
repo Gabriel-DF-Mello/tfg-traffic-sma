@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "IQaYEIXWr1ei7g6pLJySFYXtq3YLYxNALLPwLh6NHbmO+69a7qfWvkXAuSFp8te9yDa3fjGbTnQ+SGTVe3q6tA==",
+  "dgSpecHash": "uc7uHVnc1PBUwIBgoRe5kxCZsAtV22W5uI6T7Zml/HMZmnpTJoChZMxsr3CipkrG3177fVvWDA88qLZ8DxJphQ==",
   "success": true,
-  "projectFilePath": "/Users/alexandrezamberlan/NetBeansProjects/sockets/SocketCSharp/SocketCSharp.csproj",
+  "projectFilePath": "/Users/alexandrezamberlan/Documents/_codigos/tfg-traffic-sma/sockets/SocketCSharp/SocketCSharp.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

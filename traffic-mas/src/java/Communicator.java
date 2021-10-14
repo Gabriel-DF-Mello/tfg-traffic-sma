@@ -1,5 +1,7 @@
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.Socket;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -18,28 +20,38 @@ public class Communicator {
                     ((lenBytes[1] & 0xff) << 8) | (lenBytes[0] & 0xff));
             byte[] receivedBytes = new byte[len];
             is.read(receivedBytes, 0, len);
-            String mensagem = new String(receivedBytes, 0, len);
+            String msg = new String(receivedBytes, 0, len);
 
-            return mensagem;
+            return msg;
         } catch (Exception e) {
             System.out.println(e.toString());
             return null;
         }
     }
     
-    public static void sendMessageTCP(Socket s, String mensagem) {
-        try {
-            //Cria um objeto de fluxo de dados de de saída, para poder enviar dados pelo socket s
-            DataOutputStream escritor = new DataOutputStream(s.getOutputStream());
-            escritor.writeUTF(mensagem);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public static void sendMessageTCP(Socket s, String msg) {
+    	OutputStream os;
+		try {
+			os = s.getOutputStream();
+			byte[] toSendBytes = msg.getBytes();
+	        int toSendLen = toSendBytes.length;
+	        byte[] toSendLenBytes = new byte[4];
+	        toSendLenBytes[0] = (byte)(toSendLen & 0xff);
+	        toSendLenBytes[1] = (byte)((toSendLen >> 8) & 0xff);
+	        toSendLenBytes[2] = (byte)((toSendLen >> 16) & 0xff);
+	        toSendLenBytes[3] = (byte)((toSendLen >> 24) & 0xff);
+	        os.write(toSendLenBytes);
+	        os.write(toSendBytes);
+	    	
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
     }
     
-    public static DatagramPacket assemblyMessageUDP(String mensagem, String ip, int porta) {
+    public static DatagramPacket assemblyMessageUDP(String msg, String ip, int porta) {
         try {
-            byte[] buffer = mensagem.getBytes();
+            byte[] buffer = msg.getBytes();
             //monta um pacote datagrama com a mensagem, indicando, além dos dados, o endereço e a porta a ser enviado
             DatagramPacket pacote = new DatagramPacket(buffer, buffer.length, InetAddress.getByName(ip), porta);
             return pacote;

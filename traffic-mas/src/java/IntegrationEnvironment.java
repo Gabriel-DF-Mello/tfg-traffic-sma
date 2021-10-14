@@ -3,17 +3,17 @@
 import jason.asSyntax.*;
 import jason.environment.*;
 import jason.asSyntax.parser.*;
-
-import java.util.Scanner;
 import java.util.logging.*;
 
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
-import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.ServerSocket;
 import java.net.Socket;
+
+
+
 
 
 public class IntegrationEnvironment extends Environment {
@@ -44,17 +44,22 @@ public class IntegrationEnvironment extends Environment {
 
     @Override
     public boolean executeAction(String agName, Structure action) {
-        logger.info("executing: "+action+", but not implemented!");
-        
-        String acao = "";
-        //veio a ação parar um carro
-        if (action.getFunctor().equals("parar")) {
+        if (action.getFunctor().equals("ola")) {
 	        try {
-	            Communicator.sendMessageTCP(cliente, acao); //envia uma mensagem pela rede
+	        	System.out.println("executando uma acao....");
+	            Communicator.sendMessageTCP(cliente, action.toString()); 
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	        }   
-        }
+        } else logger.info("tentando executar : "+action+", mas não foi implementada!");
+        
+        try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
         return true; // the action was executed with success
     }
 
@@ -83,7 +88,7 @@ public class IntegrationEnvironment extends Environment {
             new Thread() {
 	            public void run() {
 	            	String jsonString = new String();
-	            	JSONParser jsonParser;
+	            
 	                System.out.println("Iniciada a Thread para recebimento percepções");
 	                try {
 	                    while (true) {
@@ -107,8 +112,14 @@ public class IntegrationEnvironment extends Environment {
 //	                        System.out.println(agente);
 	                        
 	                        
-	                        //addPercept(ASSyntax.parseLiteral(json.toString()));
-	                        //addPercept(ASSyntax.parseLiteral("quemEstaAi"));
+	                        addPercept(ASSyntax.parseLiteral(jsonString.toString()));
+	                        try {
+	                        	Thread.sleep(1000);
+	                        	removePercept(ASSyntax.parseLiteral(jsonString.toString()));
+	                        } catch(Exception e) {
+	                        	System.out.println("Problemas de sincronismo");
+	                        }
+	                        
 	                    }
 	                } catch (Exception e) {
 	                    e.printStackTrace();

@@ -9,12 +9,15 @@ namespace SocketCSharp
     {
         public static String recebeMensagem(Socket s) 
         {
-            try 
+            try
             {
-                //Cria um objeto de fluxo de dados de entrada, para poder receber dados de um socket s
-                //DataInputStream leitor = new DataInputStream(s.getInputStream());
-                String mensagem = ""; // = leitor.readUTF();
-                return mensagem;
+                byte[] rcvLenBytes = new byte[4];
+                s.Receive(rcvLenBytes);
+                int rcvLen = System.BitConverter.ToInt32(rcvLenBytes, 0);
+                byte[] rcvBytes = new byte[rcvLen];
+                s.Receive(rcvBytes);
+                String rcv = System.Text.Encoding.ASCII.GetString(rcvBytes);            
+                return rcv;
             } catch (Exception e) {
                 Console.WriteLine(e);
                 return null;
@@ -31,8 +34,6 @@ namespace SocketCSharp
                 byte[] toSendLenBytes = System.BitConverter.GetBytes(toSendLen);
                 socket.Send(toSendLenBytes);
                 socket.Send(toSendBytes);
-
-
             } catch (Exception e) {
                 Console.WriteLine(e);
             }

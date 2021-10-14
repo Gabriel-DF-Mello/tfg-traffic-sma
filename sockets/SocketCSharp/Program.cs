@@ -45,10 +45,22 @@ namespace SocketCSharp
             try {
                 while (true) 
                 {
-                    Console.Write("Digite: ");
                     String mensagem = Console.ReadLine();
                     Comunicador.enviaMensagem(socket, mensagem); //envia uma mensagem pela rede
                 }
+            } catch (Exception e) {
+                Console.WriteLine(e);
+            }
+        }
+
+        static void recebeMsg() 
+        {
+            try {
+                String msg;
+                do {
+                    msg = "SMA mandou: " + Comunicador.recebeMensagem(socket); 
+                    Console.WriteLine(msg);
+                } while (!msg.Equals(""));
             } catch (Exception e) {
                 Console.WriteLine(e);
             }
@@ -58,7 +70,9 @@ namespace SocketCSharp
         {
             criaClientSocket();
             Thread te = new Thread(new ThreadStart(enviaMsg));
+            Thread tr = new Thread(new ThreadStart(recebeMsg));
             te.Start();
+            tr.Start();
         }
     }
 }
