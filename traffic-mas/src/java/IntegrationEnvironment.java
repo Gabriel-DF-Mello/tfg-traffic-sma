@@ -6,6 +6,10 @@ import jason.asSyntax.parser.*;
 
 import java.util.Scanner;
 import java.util.logging.*;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.ServerSocket;
@@ -70,7 +74,7 @@ public class IntegrationEnvironment extends Environment {
         }
     }
 
-    private void aguardaClientesTCP() {
+    private void aguardaClientesTCP() {  	
         try {
             /*Bloqueia esperando por uma conexão através do accept()
              Ao receber a conexão, ele receberá como retorno uma referência do Socket do cliente*/
@@ -78,25 +82,39 @@ public class IntegrationEnvironment extends Environment {
             System.out.println("Recebi a conexão com simulador Unity");
             new Thread() {
 	            public void run() {
+	            	String jsonString = new String();
+	            	JSONParser jsonParser;
 	                System.out.println("Iniciada a Thread para recebimento percepções");
 	                try {
 	                    while (true) {
-	                        String json = Communicator.receiveMessageTCP(cliente); 
+	                        jsonString = Communicator.receiveMessageTCP(cliente); 	                        
+	                        System.out.println("Mensagem recebida: " + jsonString);
 	                        
-	                        System.out.println("Mensagem recebida: " + json);
+//	                        jsonParser = new JSONParser();
 	                        
 	                        //tratar a msg que chega do unity
+	                        //identificação do agente
+	                        //obstaculo (veículo, semáforo, pedestre)
+	                        //detalhes do obstaculo (semáforo = cores; pedestre; veículo = velocidade)
+	                        //distância (dentro da quadra)
+	                        //velocidade do agente
+	                        //{"agente":"car1","obstaculo":"pedestre","cor":"sem,"velocidadeOutro":0,"distancia":3,"velocidadePropria":3}
+	                        	                        
+	                        		
+//	                        Object obj = parser.parse(json);
+//	                        JSONObject jsonObject = (JSONObject) obj;
+//	                        String agente = (String)jsonObject.get("agente");
+//	                        System.out.println(agente);
 	                        
-	                        addPercept(ASSyntax.parseLiteral(json.toString()));
+	                        
+	                        //addPercept(ASSyntax.parseLiteral(json.toString()));
 	                        //addPercept(ASSyntax.parseLiteral("quemEstaAi"));
 	                    }
 	                } catch (Exception e) {
 	                    e.printStackTrace();
 	                }
 	            }
-            }.start();
-            
-            
+            }.start();            
         } catch (Exception e) {
             e.printStackTrace();
         }
