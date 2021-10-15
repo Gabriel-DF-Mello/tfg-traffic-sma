@@ -45,6 +45,7 @@ public class PedestrianSpawner : MonoBehaviour
     void Spawn(GameObject pedestrian)
     {
         GameObject instance = Instantiate(pedestrian, transform.position, transform.rotation) as GameObject;
+        instance.tag = "Pedestrian";
         instance.GetComponent<PedestrianMovement>().pathIndex = pathIndex;
     }
 }

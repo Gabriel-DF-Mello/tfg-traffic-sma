@@ -46,6 +46,7 @@ public class VehicleSpawner : MonoBehaviour
     void Spawn(GameObject vehicle)
     {
         GameObject instance = Instantiate(vehicle, transform.position, transform.rotation) as GameObject;
+        instance.tag = "Vehicle";
         instance.GetComponent<VehicleMovement>().pathIndex = pathIndex;
         instance.GetComponent<VehicleMovement>().canDie = makeKillable;
     }

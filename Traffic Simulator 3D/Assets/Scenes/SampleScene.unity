@@ -536,6 +536,18 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6226642904956804622, guid: 37d7911618e25b84a863ca3f541aa7d0, type: 3}
   m_PrefabInstance: {fileID: 8080611052870501741}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &297041509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 297041508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 489741a82100b404ba028f1e7270d85d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!54 &297041513
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3110,8 +3122,29 @@ PrefabInstance:
       propertyPath: m_Name
       value: SimManager
       objectReference: {fileID: 0}
+    - target: {fileID: 5236454477873289676, guid: f4dab3b1232cf914bbaf3bcf5a1b07c4, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f4dab3b1232cf914bbaf3bcf5a1b07c4, type: 3}
+--- !u!1 &5557998065243466930 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5236454477873289676, guid: f4dab3b1232cf914bbaf3bcf5a1b07c4, type: 3}
+  m_PrefabInstance: {fileID: 5557998065243466929}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5557998065243466931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5557998065243466930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86f9443f47cce164bab77da37c3da0ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &6455915697897481742 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8838228938237145416, guid: 726bca55c2f697e42b211c55d79596ea, type: 3}
@@ -3170,6 +3203,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6553290074002556189, guid: 81e07dab35e73794dae1b824a3726ea3, type: 3}
       propertyPath: m_Name
+      value: Pedestrian
+      objectReference: {fileID: 0}
+    - target: {fileID: 6553290074002556189, guid: 81e07dab35e73794dae1b824a3726ea3, type: 3}
+      propertyPath: m_TagString
       value: Pedestrian
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -3249,6 +3286,10 @@ PrefabInstance:
     - target: {fileID: 6226642904956804622, guid: 37d7911618e25b84a863ca3f541aa7d0, type: 3}
       propertyPath: m_Name
       value: Car
+      objectReference: {fileID: 0}
+    - target: {fileID: 6226642904956804622, guid: 37d7911618e25b84a863ca3f541aa7d0, type: 3}
+      propertyPath: m_TagString
+      value: Vehicle
       objectReference: {fileID: 0}
     - target: {fileID: 8567578136988704122, guid: 37d7911618e25b84a863ca3f541aa7d0, type: 3}
       propertyPath: m_RootOrder
