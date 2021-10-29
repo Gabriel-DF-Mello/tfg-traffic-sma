@@ -5,8 +5,6 @@ import jason.environment.*;
 import jason.asSyntax.parser.*;
 import java.util.logging.*;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import java.net.DatagramSocket;
 import java.net.ServerSocket;
