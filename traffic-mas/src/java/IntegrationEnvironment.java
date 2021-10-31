@@ -1,63 +1,54 @@
-// Environment code for project traffic
-
 import jason.asSyntax.*;
 import jason.environment.*;
 import jason.asSyntax.parser.*;
 import java.util.logging.*;
-
 
 import java.net.DatagramSocket;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 
-
-
-
 public class IntegrationEnvironment extends Environment {
-
     private Logger logger = Logger.getLogger("traffic."+IntegrationEnvironment.class.getName());
-    ServerSocket servidor;
-    Socket cliente;
-    DatagramSocket socket;
     
+    ServerSocket server;
+    Socket client;
+    DatagramSocket socket;
 
+    
     /** Called before the MAS execution with the args informed in .mas2j */
     @Override
     public void init(String[] args) {
         super.init(args);
         
         try {
-			addPercept(ASSyntax.parseLiteral("quemEstaAi"));
+			addPercept(ASSyntax.parseLiteral("whoIsThere"));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-        
-        criaServerSocketTCP(1234);
-        aguardaClientesTCP();
-    	//ou
-        //criaServerSocketUDP(porta);
-        //aguardaClientesUDP();
+        this.createServerSocketTCP(1234);
+        this.waitClientsTCP();
     }
 
     @Override
     public boolean executeAction(String agName, Structure action) {
         if (action.getFunctor().equals("ola")) {
 	        try {
-	        	System.out.println("executando uma acao....");
-	            Communicator.sendMessageTCP(cliente, action.toString()); 
+	        	logger.info("an action in execution....");
+	        	//converter acao do agente em json para unity
+	        	
+	        	
+	            Communicator.sendMessageTCP(client, action.toString()); 
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	        }   
-        } else logger.info("tentando executar : "+action+", mas não foi implementada!");
+        } else logger.info("Server MAS is trying an action: "+action+", but not implemented yet!");
         
         try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        
         return true; // the action was executed with success
     }
 
@@ -67,57 +58,48 @@ public class IntegrationEnvironment extends Environment {
         super.stop();
     }
     
-
-    private void criaServerSocketTCP(int porta) {
+    private void createServerSocketTCP(int port) {
         try {
-            servidor = new ServerSocket(porta,10);
-            System.out.println("Aguardando simulador Unity na porta " + porta);
+            server = new ServerSocket(port,10);
+            logger.info("Server MAS waiting Unity Simulator at port " + port);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void aguardaClientesTCP() {  	
+    private void waitClientsTCP() {  	
         try {
-            /*Bloqueia esperando por uma conexão através do accept()
-             Ao receber a conexão, ele receberá como retorno uma referência do Socket do cliente*/
-            cliente = servidor.accept();
-            System.out.println("Recebi a conexão com simulador Unity");
+            client = server.accept();
+            logger.info("Server MAS received a conection with Unity Simulator");
             new Thread() {
 	            public void run() {
-	            	String jsonString = new String();
+	            	String jsonStringReceived = new String();
 	            
-	                System.out.println("Iniciada a Thread para recebimento percepções");
+	            	logger.info("All threads to handle percepts are online!!");
 	                try {
 	                    while (true) {
-	                        jsonString = Communicator.receiveMessageTCP(cliente); 	                        
-	                        System.out.println("Mensagem recebida: " + jsonString);
+	                        jsonStringReceived = Communicator.receiveMessageTCP(client); 	                        
+	                        logger.info("A socket json received: " + jsonStringReceived);
 	                        
-//	                        jsonParser = new JSONParser();
+	                        //convert json string  to an agent 
+	                        Agent agt = JsonUtil.objectToJson(jsonStringReceived);
+	                        logger.info("JSON was converted in Agente: " + agt);
 	                        
-	                        //tratar a msg que chega do unity
-	                        //identificação do agente
-	                        //obstaculo (veículo, semáforo, pedestre)
-	                        //detalhes do obstaculo (semáforo = cores; pedestre; veículo = velocidade)
-	                        //distância (dentro da quadra)
-	                        //velocidade do agente
-	                        //{"agente":"car1","obstaculo":"pedestre","cor":"sem,"velocidadeOutro":0,"distancia":3,"velocidadePropria":3}
-	                        	                        
-	                        		
-//	                        Object obj = parser.parse(json);
-//	                        JSONObject jsonObject = (JSONObject) obj;
-//	                        String agente = (String)jsonObject.get("agente");
-//	                        System.out.println(agente);
+	                        //split agent information in percepts 	                        
+	                        //....
 	                        
-	                        
-	                        addPercept(ASSyntax.parseLiteral(jsonString.toString()));
+	                        //add percepts to all agents in Environment 
+	                        addPercept(ASSyntax.parseLiteral("oi"));
+	                        //addPercept(ASSyntax.parseLiteral("oi"));
+	                        //addPercept(ASSyntax.parseLiteral("oi"));
 	                        try {
 	                        	Thread.sleep(1000);
-	                        	removePercept(ASSyntax.parseLiteral(jsonString.toString()));
+	                        	removePercept(ASSyntax.parseLiteral("oi"));
+	                        	//removePercept(ASSyntax.parseLiteral("oi"));
+	                        	//removePercept(ASSyntax.parseLiteral("oi"));
 	                        } catch(Exception e) {
-	                        	System.out.println("Problemas de sincronismo");
+	                        	logger.info("Some problems to synchronize!!");
 	                        }
-	                        
 	                    }
 	                } catch (Exception e) {
 	                    e.printStackTrace();

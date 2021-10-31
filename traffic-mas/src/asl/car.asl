@@ -8,11 +8,11 @@
 /* Plans */
 
 
-+quemEstaAi : true
++whoIsThere : true
 	<-
-	.print("Estou ativo no cenário").
+	.print("I am here.... over").
 	
-+oi : true
++hi : true
 	<- 
-	   .print("recebi um oi e vou mandar um ola");
+	   .print("I received and HI (in portuguese) and I will send HI (but in portuguese)");
 	   ola.
