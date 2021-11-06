@@ -57,10 +57,13 @@ namespace SocketCSharp
         {
             try {
                 String msg;
-                do {
+                do 
+                {
                     msg = "SMA mandou: " + Comunicador.recebeMensagem(socket); 
+                
                     Console.WriteLine(msg);
-                } while (!msg.Equals(""));
+                } while(true);
+                
             } catch (Exception e) {
                 Console.WriteLine(e);
             }
