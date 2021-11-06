@@ -45,7 +45,7 @@ public class Receiver : MonoBehaviour
         }
     }
 
-    static void ReceiveCallback(IAsyncResult AR)
+    void ReceiveCallback(IAsyncResult AR)
     {
         //Check how much bytes are recieved and call EndRecieve to finalize handshake
         int received = socket.EndReceive(AR);

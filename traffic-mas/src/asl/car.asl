@@ -15,4 +15,5 @@
 +hi : true
 	<- 
 	   .print("I received and HI (in portuguese) and I will send HI (but in portuguese)");
-	   ola.
+	   .wait(100);
+	   acaoola.

@@ -6,16 +6,19 @@ public class VehicleData : MonoBehaviour
 {
     public float vision = 60f;
     public string type;
+    Sender s;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        GameObject simManager = GameObject.Find("SimManager");
+        s = simManager.GetComponent<Sender>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        GenerateData();
+        GenerateData(true);
     }
 
     List<Obstacle> GetObstacles()
@@ -52,11 +55,13 @@ public class VehicleData : MonoBehaviour
         return obstacles;
     }
 
-    void GenerateData()
+    string GenerateData(bool hasLog)
     {
         Info info = new Info();
         info.name = type;
         info.id = gameObject.GetInstanceID();
+        info.position_x = transform.position.x;
+        info.position_y = transform.position.z;
         info.speed = gameObject.GetComponent<VehicleMovement>().speed;
         info.facing = transform.rotation.eulerAngles.y;
 
@@ -67,6 +72,18 @@ public class VehicleData : MonoBehaviour
 
         //Create Json based on the data from gameObjects
         string json = JsonUtility.ToJson(info);
-        Debug.Log(json);
+        if (hasLog)
+        {
+            Debug.Log(json);
+        }
+        return json;
+    }
+
+    void SendData()
+    {
+        for (; ; )
+        {
+            s.Send(GenerateData(false));
+        }
     }
 }

@@ -7,7 +7,7 @@
 	</classpathentry>
 	<classpathentry excluding="*.asl" kind="src" path="src/asl"/>
 	<classpathentry kind="src" path="src/java"/>
-	<classpathentry kind="lib" path="/Users/alexandrezamberlan/Documents/_codigos/tfg-traffic-sma/JSON_java/gson-2.8.8.jar"/>
-	<classpathentry kind="lib" path="/Users/alexandrezamberlan/jason-2.6.3/libs/jason-2.6.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/gabri/Code/Jason/jason-2.6.3/libs/jason-2.6.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/gabri/Code/Unity/Projects/tfg-traffic-sma/JSON_java/gson-2.8.8.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

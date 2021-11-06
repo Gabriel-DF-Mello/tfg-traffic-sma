@@ -32,13 +32,13 @@ public class IntegrationEnvironment extends Environment {
 
     @Override
     public boolean executeAction(String agName, Structure action) {
-        if (action.getFunctor().equals("ola")) {
+        if (action.getFunctor().equals("acaoola")) {
 	        try {
 	        	logger.info("an action in execution....");
 	        	//converter acao do agente em json para unity
 	        	
-	        	
-	            Communicator.sendMessageTCP(client, action.toString()); 
+	        	String message = "Agente: " + agName + "Oi, mandando de volta";
+	            Communicator.sendMessageTCP(client, message); 
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	        }   
@@ -82,19 +82,23 @@ public class IntegrationEnvironment extends Environment {
 	                        logger.info("A socket json received: " + jsonStringReceived);
 	                        
 	                        //convert json string  to an agent 
-	                        Agent agt = JsonUtil.objectToJson(jsonStringReceived);
-	                        logger.info("JSON was converted in Agente: " + agt);
+	                        //{"id":-25022,"name":"Car","speed":15.0,"facing":358.1144104003906,"obstacles":"{\"items\":[]}"}
+	                        
+	                       if(!jsonStringReceived.equals("hi")) {
+	                        	Agent agt = JsonUtil.objectToJson(jsonStringReceived);
+		                        logger.info("JSON was converted in Agente: " + agt);
+	                        }
 	                        
 	                        //split agent information in percepts 	                        
 	                        //....
 	                        
 	                        //add percepts to all agents in Environment 
-	                        addPercept(ASSyntax.parseLiteral("oi"));
+	                        //addPercept(ASSyntax.parseLiteral(jsonStringReceived));
 	                        //addPercept(ASSyntax.parseLiteral("oi"));
 	                        //addPercept(ASSyntax.parseLiteral("oi"));
 	                        try {
 	                        	Thread.sleep(1000);
-	                        	removePercept(ASSyntax.parseLiteral("oi"));
+	                        	//removePercept(ASSyntax.parseLiteral(jsonStringReceived));
 	                        	//removePercept(ASSyntax.parseLiteral("oi"));
 	                        	//removePercept(ASSyntax.parseLiteral("oi"));
 	                        } catch(Exception e) {

@@ -2,7 +2,6 @@ import java.util.LinkedList;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 
 public class JSON_Test {
 	public static void main(String a[]) {
@@ -18,7 +17,7 @@ public class JSON_Test {
 		obstacles.add(poste);
 		obstacles.add(pedestre);
 		
-		Agent carro1 = new Agent(1, 10, 10, 5, 30, obstacles);
+		Agent carro1 = new Agent(1, "car", 10, 10, 5, 30, obstacles);
 		
 		jsonStringReceived = gson.toJson(carro1);
 		

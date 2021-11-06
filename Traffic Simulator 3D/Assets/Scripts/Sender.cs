@@ -21,7 +21,7 @@ public class Sender : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Debug.Log("Sending Hello");
-            Send("oi"); //envia uma mensagem pela rede
+            Send("hi"); //envia uma mensagem pela rede
         }
         if (Input.GetKeyDown(KeyCode.K))
         {
@@ -41,7 +41,7 @@ public class Sender : MonoBehaviour
         socket.SendAsync(socketAsyncData);
     }
 
-    public static void Send(String message)
+    public void Send(String message)
     {
         try
         {
