@@ -82,17 +82,14 @@ public class IntegrationEnvironment extends Environment {
 						while (true) {
 							jsonStringReceived = Communicator.receiveMessageTCP(client);
 							logger.info("A socket json received: " + jsonStringReceived);
-							
 							// CONVERTENDO JSON EM OBJETO CAR
 							Agent car = JsonUtil.gson.fromJson(jsonStringReceived, Agent.class);
 							System.out.println("Objeto car recebido\n\n" + car);
-							
 							//CONVERTENDO JSON DE OBSTACLE PARA LISTA DE OBSTACLES
 							System.out.println("String de obstaculos: " + car.obstacles);
 							java.lang.reflect.Type listType = new TypeToken<LinkedList<Obstacle>>(){}.getType();
 							LinkedList<Obstacle> obstacles = JsonUtil.gson.fromJson(car.obstacles, listType);
 							System.out.println(obstacles);				
-							
 							// split agent information in percepts
 							// add percepts to agents
 							try {
