@@ -5,7 +5,4 @@ import com.google.gson.GsonBuilder;
 public class JsonUtil {
 	static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 	
-	public static Agent objectToJson(String json) {
-		return gson.fromJson(json, Agent.class);
-	}
 }

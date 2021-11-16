@@ -5,11 +5,11 @@ public class Agent {
 	public String name;
 	public float position_x;
 	public float position_y;
-	public float facing;
 	public float speed;
+	public float facing;
 	public String obstacles;
 	
-	public Agent(int id, String name,  float position_x, float position_y, float facing, float speed, String obstacles) {
+	public Agent(int id, String name,  float position_x, float position_y, float speed, float facing, String obstacles) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -22,7 +22,9 @@ public class Agent {
 
 	@Override
 	public String toString() {
-		return "Agent [id=" + id + ", name=" + name + ", position_x=" + position_x + ", position_y=" + position_y + ", facing=" + facing
-				+ ", speed=" + speed + ", obstacles=" + obstacles + "]";
-	}	
+		return "Agent [id=" + id + ", name=" + name + ", position_x=" + position_x + ", position_y=" + position_y
+				+ ", speed=" + speed + ", facing=" + facing + ", obstacles=" + obstacles + "]";
+	}
+
+	
 }
