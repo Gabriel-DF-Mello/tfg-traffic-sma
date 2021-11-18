@@ -9,29 +9,73 @@ public class JSON_Test {
 		
 		Gson gson = new Gson();//GsonBuilder().setPrettyPrinting().create();
 		
-		//CONVERTENDO OBJETOS EM JSON
-		Obstacle signal = new Obstacle(100, "signal", "stopped", 100, 10, 500);
-		Obstacle pedestrian = new Obstacle(110, "pedestrian", "walking", 10, 10, 300);
+		//CONVERTENDO OBJETOS EM JSON	
+		LinkedList<Agent> listObstaclesSeen = new LinkedList<Agent>();
+		//id, name, x, y, speed, facing, state, seen, around
+		listObstaclesSeen.add(new Agent(100, "signal_1", 100, 10, 0, "left", "green", "", ""));
+		listObstaclesSeen.add(new Agent(500,"alexandre", 56, 12, 0, "up", "", "", ""));
+		listObstaclesSeen.add(new Agent(501,"gabriel", 546, 120, 2, "left", "", "", ""));
+		String listObstaclesSeenString = gson.toJson(listObstaclesSeen);
+		//System.out.println(listObstaclesSeenString);
 		
-		LinkedList<Obstacle> obstacles = new LinkedList<Obstacle>();
-		obstacles.add(signal);
-		obstacles.add(pedestrian);
-		String obstaclesString = gson.toJson(obstacles);
-		
-		//um objeto carro com seus obstaculos
-		Agent car = new Agent(-25022,"Car", 3, 3, 10, 0, obstaclesString);
+		//um objeto carro com seus obstaculos vistos
+		//id, name, x, y, speed, facing, state, seen, around
+		Agent car = new Agent(1,"civic", 300, 12, 5, "left", "", listObstaclesSeenString,"");
 		String jsonStringObject2Json = gson.toJson(car);
-		System.out.println("O objeto car com seus dois obstaculos\n"+jsonStringObject2Json);
+		//System.out.println("O objeto car com seus obstaculos\n"+jsonStringObject2Json);
+
 		
-		
-		//CONVERTENDO JSON EM OBJETOS
+		//convert json into object
 		String jsonStringJson2Object = jsonStringObject2Json;
-		Agent car2 = gson.fromJson(jsonStringJson2Object, Agent.class);
-        System.out.println("Objeto car recebido\n\n" + car2);
+		System.out.println("JSON received:\n " + jsonStringJson2Object);
+		Agent agent = gson.fromJson(jsonStringJson2Object, Agent.class);
+        java.lang.reflect.Type listType = new TypeToken<LinkedList<Agent>>(){}.getType();
+        LinkedList<Agent> listObstaclesSeen2 = gson.fromJson(agent.seen, listType);
         
-        System.out.println("String de obstaculos: " +  car2.obstacles);
-        java.lang.reflect.Type tipoLista = new TypeToken<LinkedList<Obstacle>>(){}.getType();
-        LinkedList<Obstacle> obstacles2 = gson.fromJson(car2.obstacles, tipoLista);
-        System.out.println(obstacles2);        
+        
+        //build perceptions
+        StringBuffer agentPercept = new StringBuffer();
+        agentPercept.append(agent.name);
+        agentPercept.append("(");
+        agentPercept.append(agent.position_x);
+        agentPercept.append(",");
+        agentPercept.append(agent.position_y);
+        agentPercept.append(",");
+        agentPercept.append(agent.speed);
+        agentPercept.append(",");
+        agentPercept.append(agent.facing);
+        agentPercept.append(")");
+        
+        
+        System.out.println("\nAgents sent:");
+        System.out.println(agentPercept);
+        
+        StringBuffer percepcaoListObstaclesSeen;
+        System.out.println("\nList of seen:");
+        
+        //id, name, x, y, speed, facing, state, seen, around
+        for (Agent i : listObstaclesSeen2) {
+        	percepcaoListObstaclesSeen = new StringBuffer();
+        	percepcaoListObstaclesSeen.append("seen(");
+            percepcaoListObstaclesSeen.append(agent.name);
+            percepcaoListObstaclesSeen.append(",");
+            percepcaoListObstaclesSeen.append(i.name);
+            percepcaoListObstaclesSeen.append(",");
+            percepcaoListObstaclesSeen.append(i.position_x);
+            percepcaoListObstaclesSeen.append(",");
+            percepcaoListObstaclesSeen.append(i.position_y);
+            percepcaoListObstaclesSeen.append(",");
+            percepcaoListObstaclesSeen.append(i.facing);
+            percepcaoListObstaclesSeen.append(")");
+            System.out.println(percepcaoListObstaclesSeen);
+        }
+        
+        
+        		
+        		
+        		
+        
+        
+        
 	}
 }

@@ -82,20 +82,44 @@ public class IntegrationEnvironment extends Environment {
 						while (true) {
 							jsonStringReceived = Communicator.receiveMessageTCP(client);
 							logger.info("A socket json received: " + jsonStringReceived);
-							// CONVERTENDO JSON EM OBJETO CAR
-							Agent car = JsonUtil.gson.fromJson(jsonStringReceived, Agent.class);
-							System.out.println("Objeto car recebido\n\n" + car);
-							//CONVERTENDO JSON DE OBSTACLE PARA LISTA DE OBSTACLES
-							System.out.println("String de obstaculos: " + car.obstacles);
-							java.lang.reflect.Type listType = new TypeToken<LinkedList<Obstacle>>(){}.getType();
-							LinkedList<Obstacle> obstacles = JsonUtil.gson.fromJson(car.obstacles, listType);
-							System.out.println(obstacles);				
-							// split agent information in percepts
-							// add percepts to agents
+							//convert json into object
+							Agent agent = JsonUtil.gson.fromJson(jsonStringReceived, Agent.class);
+					        java.lang.reflect.Type listType = new TypeToken<LinkedList<Agent>>(){}.getType();
+					        LinkedList<Agent> listObstaclesSeen = JsonUtil.gson.fromJson(agent.seen, listType);
+							//build perceptions and send to all agents
+					        StringBuffer agentPercept = new StringBuffer();
+					        agentPercept.append(agent.name);
+					        agentPercept.append("(");
+					        agentPercept.append(agent.position_x);
+					        agentPercept.append(",");
+					        agentPercept.append(agent.position_y);
+					        agentPercept.append(",");
+					        agentPercept.append(agent.speed);
+					        agentPercept.append(",");
+					        agentPercept.append(agent.facing);
+					        agentPercept.append(")");
+					        addPercept(ASSyntax.parseLiteral(agentPercept.toString()));
+					        
+					        StringBuffer percepcaoListObstaclesSeen;
+					        //id, name, x, y, speed, facing, state, seen, around
+					        for (Agent i : listObstaclesSeen) {
+					        	percepcaoListObstaclesSeen = new StringBuffer();
+					        	percepcaoListObstaclesSeen.append("seen(");
+					            percepcaoListObstaclesSeen.append(agent.name);
+					            percepcaoListObstaclesSeen.append(",");
+					            percepcaoListObstaclesSeen.append(i.name);
+					            percepcaoListObstaclesSeen.append(",");
+					            percepcaoListObstaclesSeen.append(i.position_x);
+					            percepcaoListObstaclesSeen.append(",");
+					            percepcaoListObstaclesSeen.append(i.position_y);
+					            percepcaoListObstaclesSeen.append(",");
+					            percepcaoListObstaclesSeen.append(i.facing);
+					            percepcaoListObstaclesSeen.append(")");
+					            addPercept(ASSyntax.parseLiteral(percepcaoListObstaclesSeen.toString()));
+					        }
 							try {
 								Thread.sleep(1000);
 								// remove percepts added before 1000 ms
-								
 							} catch (Exception e) {
 								logger.info("Some problems to synchronize!!");
 							}
