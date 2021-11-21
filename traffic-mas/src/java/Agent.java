@@ -17,7 +17,7 @@ public class Agent {
 		this.position_y = position_y;
 		this.facing = facing;
 		this.speed = speed;
-		this.obstacles = obstacles;
+		this.obstacles = obstacles; //"{itens:[]}"
 	}
 
 	@Override

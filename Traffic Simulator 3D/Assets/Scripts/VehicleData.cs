@@ -21,54 +21,28 @@ public class VehicleData : MonoBehaviour
         GenerateData(true);
     }
 
-    List<Obstacle> GetObstacles()
-    {
-        List<Obstacle> obstacles = new List<Obstacle>();
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, vision);
-        foreach (var hitCollider in hitColliders)
-        {
-            if ((hitCollider.gameObject.tag == "Semaphore") || (hitCollider.gameObject.tag == "Pedestrian") || (hitCollider.gameObject.tag == "Vehicle"))
-            {
-                if(hitCollider.transform.position != transform.position){
-                    //Debug.Log("I am in range of a " + hitCollider.gameObject.tag);
-                    Vector3 obstacleRelative = hitCollider.transform.InverseTransformPoint(transform.position);
-                    Obstacle ob = new Obstacle();
-                    ob.id = hitCollider.gameObject.GetInstanceID();
-                    ob.distance_x = obstacleRelative.x;
-                    ob.distance_y = obstacleRelative.z;
-                    ob.type = hitCollider.gameObject.tag;
-                    if (hitCollider.gameObject.tag == "Semaphore")
-                    {
-                        //Debug.Log("Found a semaphore");
-                        // get semaphore state
-                        ob.state = hitCollider.gameObject.GetComponent<SemaphoreData>().state;
-                    }
-                    else
-                    {
-                        ob.state = "None";
-                    }
-                    obstacles.Add(ob);
-                }
-            }
-        }
-        //Debug.Log("------------------------------------");
-        return obstacles;
-    }
-
     string GenerateData(bool hasLog)
     {
         Info info = new Info();
-        info.name = type;
         info.id = gameObject.GetInstanceID();
+        info.name = type;
         info.position_x = transform.position.x;
         info.position_y = transform.position.z;
         info.speed = gameObject.GetComponent<VehicleMovement>().speed;
         info.facing = transform.rotation.eulerAngles.y;
+        info.distance = 0;
+        info.state = "None";
 
-        Obstacle[] obs = GetObstacles().ToArray();
+        gameObject.GetComponent<FieldOfView>().FindTargets();
+        Info[] seenObstacles = gameObject.GetComponent<FieldOfView>().seen.ToArray();
+        Info[] aroundObstacles = gameObject.GetComponent<FieldOfView>().around.ToArray();
 
-        string obstaclesToJson = JsonHelper.ToJson(obs, false);
-        info.obstacles = obstaclesToJson;
+        string seenToJson = JsonHelper.ToJson(seenObstacles, false);
+        string aroundToJson = JsonHelper.ToJson(aroundObstacles, false);
+
+        // set around and seen
+        info.seen = seenToJson;
+        info.around = aroundToJson;
 
         //Create Json based on the data from gameObjects
         string json = JsonUtility.ToJson(info);
@@ -81,9 +55,6 @@ public class VehicleData : MonoBehaviour
 
     void SendData()
     {
-        for (; ; )
-        {
-            s.Send(GenerateData(false));
-        }
+        s.Send(GenerateData(false));
     }
 }
