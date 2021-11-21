@@ -8,9 +8,9 @@
 /* Plans */
 
 
-+whoIsThere : true
++simulation(on) : true
 	<-
-	.print("I am here.... over").
+	.print("I am here.... ").
 	
 +hi : true
 	<- 
