@@ -12,32 +12,32 @@
                                                      Distance < 20
 	<- .print("i am seeing a RED signal so closed");
        .print("it is necessary break the car");
-       break.
+       break(ID).
        
 +seen(ID, AgtSeen, X, Y, Facing, Distance, Status) : vehicle(ID,_,_,SpeedAgtID,_) & 
                                                      AgtSeen = semaphore & Status = red & 
                                                      Distance >= 20
 	<- .print("i am seeing a RED signal");
        .print("it is necessary set the speed");
-       set(down).
+       setDown(ID).
 
 +seen(ID, AgtSeen, X, Y, Facing, Distance, Status) : vehicle(ID,_,_,SpeedAgtID,_) & 
                                                      AgtSeen = semaphore & Status = yellow  
 	<- .print("i am seeing a YELLOW signal");
        .print("it is necessary set the speed");
-       set(down).
+       setDown(ID).
 
 +seen(ID, AgtSeen, X, Y, Facing, Distance, Status) : vehicle(ID,_,_,SpeedAgtID,_) & 
                                                      AgtSeen = pedestrian & Distance < 20
 	<- .print("i am seeing a PEDESTRIAN so closed");
        .print("it is necessary break the car");
-       break.
+       break(ID).
 
 +seen(ID, AgtSeen, X, Y, Facing, Distance, Status) : vehicle(ID,_,_,SpeedAgtID,_) & 
                                                      AgtSeen = pedestrian & Distance < 20
 	<- .print("i am seeing a PEDESTRIAN");
        .print("it is necessary set the speed");
-       set(down).
+       setDown(ID).
        
        
        

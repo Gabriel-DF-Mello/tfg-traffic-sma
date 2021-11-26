@@ -34,23 +34,14 @@ public class IntegrationEnvironment extends Environment {
 
 	@Override
 	public boolean executeAction(String agName, Structure action) {
-		if (action.getFunctor().equals("acaoola")) {
+		if (agName.equals("vehicle")) {
 			try {
-				logger.info("an action in execution....");
-				// converter acao do agente em json para unity
-
-				String message = "Agent: " + agName + " " + action.getFunctor();
+				String message = action.getFunctor() + ":"+ action.getTerm(0).toString();
 				Communicator.sendMessageTCP(client, message);
+				Thread.sleep(200);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		} else
-			logger.info("Server MAS is trying an action: " + action + ", but not implemented yet!");
-
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
 		}
 		return true; // the action was executed with success
 	}
@@ -122,6 +113,8 @@ public class IntegrationEnvironment extends Environment {
 							try {
 								Thread.sleep(1000);
 								// remove percepts added before 1000 ms
+								//removePercept(ASSyntax.parseLiteral(agentPercept.toString()));		
+								//removePercept(ASSyntax.parseLiteral(perceptListObstaclesSeen.toString()));
 							} catch (Exception e) {
 								logger.info("Some problems to synchronize!!");
 							}
