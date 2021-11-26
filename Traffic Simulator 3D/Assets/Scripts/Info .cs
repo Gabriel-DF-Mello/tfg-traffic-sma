@@ -11,7 +11,7 @@ public class Info
     public float position_x;
     public float position_y;
     public float speed;
-    public float facing;
+    public string facing;
     public float distance;
     public string state;
     public string seen;

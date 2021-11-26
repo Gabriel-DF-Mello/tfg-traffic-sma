@@ -38,7 +38,7 @@ public class FieldOfView : MonoBehaviour
 			info.name = hitCollider.gameObject.tag;
 			info.position_x = obstacleRelative.x;
 			info.position_y = obstacleRelative.z;
-			info.facing = hitCollider.transform.rotation.eulerAngles.y;
+			info.facing = AngleToString(hitCollider.transform.rotation.eulerAngles.y);
 			info.distance = dstToTarget;
 			info.seen = "";
 			info.around = "";
@@ -71,6 +71,27 @@ public class FieldOfView : MonoBehaviour
 				}
 			}
 		}
+	}
+
+	string AngleToString(float angle)
+	{
+		if (((angle >= 315) && (angle <= 360)) || ((angle >= 0) && (angle < 45)))
+		{
+			return "Up";
+		}
+		else if ((angle >= 45) && (angle < 135))
+		{
+			return "Right";
+		}
+		else if ((angle >= 135) && (angle < 225))
+		{
+			return "Down";
+		}
+		else if ((angle >= 225) && (angle < 315))
+		{
+			return "Left";
+		}
+		return "Up";
 	}
 
 	public Vector3 DirFromAngle(float angleInDegrees, bool angleIsGlobal)

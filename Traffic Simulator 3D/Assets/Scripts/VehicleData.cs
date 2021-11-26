@@ -11,6 +11,7 @@ public class VehicleData : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        StartCoroutine(GenRoutine());
         GameObject simManager = GameObject.Find("SimManager");
         s = simManager.GetComponent<Sender>();
     }
@@ -18,7 +19,7 @@ public class VehicleData : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        GenerateData(true);
+        //StartCoroutine(SendRoutine());
     }
 
     string GenerateData(bool hasLog)
@@ -29,7 +30,7 @@ public class VehicleData : MonoBehaviour
         info.position_x = transform.position.x;
         info.position_y = transform.position.z;
         info.speed = gameObject.GetComponent<VehicleMovement>().speed;
-        info.facing = transform.rotation.eulerAngles.y;
+        info.facing = AngleToString(transform.rotation.eulerAngles.y);
         info.distance = 0;
         info.state = "None";
 
@@ -53,8 +54,46 @@ public class VehicleData : MonoBehaviour
         return json;
     }
 
+    string AngleToString(float angle)
+    {
+        if (((angle >= 315) && (angle <= 360)) || ((angle >= 0) && (angle < 45)))
+        {
+            return "Up";
+        }
+        else if ((angle >= 45) && (angle < 135))
+        {
+            return "Right";
+        }
+        else if ((angle >= 135) && (angle < 225))
+        {
+            return "Down";
+        }
+        else if ((angle >= 225) && (angle < 315))
+        {
+            return "Left";
+        }
+        return "Up";
+    }
     void SendData()
     {
         s.Send(GenerateData(false));
+    }
+
+    IEnumerator GenRoutine()
+    {
+        while (true)
+        {
+            GenerateData(true);
+            yield return new WaitForSeconds(1f);
+        }
+    }
+
+    IEnumerator SendRoutine()
+    {
+        while (true)
+        {
+            SendData();
+            yield return new WaitForSeconds(1f);
+        }
     }
 }
