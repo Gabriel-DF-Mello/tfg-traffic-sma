@@ -11,4 +11,5 @@ public class Obstacle
     public string state;
     public float distance_x;
     public float distance_y;
+    public float facing;
 }

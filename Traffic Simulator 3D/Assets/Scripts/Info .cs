@@ -12,5 +12,8 @@ public class Info
     public float position_y;
     public float speed;
     public float facing;
-    public string obstacles;
+    public float distance;
+    public string state;
+    public string seen;
+    public string around;
 }
