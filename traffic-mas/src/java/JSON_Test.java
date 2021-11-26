@@ -7,20 +7,20 @@ import com.google.gson.reflect.TypeToken;
 public class JSON_Test {
 	public static void main(String a[]) {
 		
-		Gson gson = new Gson();//GsonBuilder().setPrettyPrinting().create();
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		
 		//CONVERTENDO OBJETOS EM JSON	
 		LinkedList<Agent> listObstaclesSeen = new LinkedList<Agent>();
-		//id, name, x, y, speed, facing, state, seen, around
-		listObstaclesSeen.add(new Agent(100, "signal_1", 100, 10, 0, "left", "green", "", ""));
-		listObstaclesSeen.add(new Agent(500,"alexandre", 56, 12, 0, "up", "", "", ""));
-		listObstaclesSeen.add(new Agent(501,"gabriel", 546, 120, 2, "left", "", "", ""));
+		//int id, String name, float position_x, float position_y, String facing, float speed, float distance, String state, String seen, String around
+		listObstaclesSeen.add(new Agent(100, "semaphore", 100, 10, "left", 0, 25 ,"green", "", ""));
+		listObstaclesSeen.add(new Agent(500,"pedestrian", 56, 12, "up", 0, 25, "", "", ""));
+		listObstaclesSeen.add(new Agent(501,"pedestrian", 546, 120, "left", 2, 25, "", "", ""));
 		String listObstaclesSeenString = gson.toJson(listObstaclesSeen);
 		//System.out.println(listObstaclesSeenString);
 		
 		//um objeto carro com seus obstaculos vistos
 		//id, name, x, y, speed, facing, state, seen, around
-		Agent car = new Agent(1,"civic", 300, 12, 5, "left", "", listObstaclesSeenString,"");
+		Agent car = new Agent(1,"vehicle", 300, 12, "left", 5, 0, "", listObstaclesSeenString,"");
 		String jsonStringObject2Json = gson.toJson(car);
 		//System.out.println("O objeto car com seus obstaculos\n"+jsonStringObject2Json);
 
@@ -35,8 +35,9 @@ public class JSON_Test {
         
         //build perceptions
         StringBuffer agentPercept = new StringBuffer();
-        agentPercept.append(agent.name);
-        agentPercept.append("(");
+        agentPercept.append(agent.name + "(");
+        agentPercept.append(agent.id);
+        agentPercept.append(",");
         agentPercept.append(agent.position_x);
         agentPercept.append(",");
         agentPercept.append(agent.position_y);
@@ -53,11 +54,10 @@ public class JSON_Test {
         StringBuffer percepcaoListObstaclesSeen;
         System.out.println("\nList of seen:");
         
-        //id, name, x, y, speed, facing, state, seen, around
         for (Agent i : listObstaclesSeen2) {
         	percepcaoListObstaclesSeen = new StringBuffer();
         	percepcaoListObstaclesSeen.append("seen(");
-            percepcaoListObstaclesSeen.append(agent.name);
+        	percepcaoListObstaclesSeen.append(agent.id);
             percepcaoListObstaclesSeen.append(",");
             percepcaoListObstaclesSeen.append(i.name);
             percepcaoListObstaclesSeen.append(",");
@@ -66,6 +66,10 @@ public class JSON_Test {
             percepcaoListObstaclesSeen.append(i.position_y);
             percepcaoListObstaclesSeen.append(",");
             percepcaoListObstaclesSeen.append(i.facing);
+            percepcaoListObstaclesSeen.append(",");
+            percepcaoListObstaclesSeen.append(i.speed);
+            percepcaoListObstaclesSeen.append(",");
+            percepcaoListObstaclesSeen.append(i.distance);
             percepcaoListObstaclesSeen.append(")");
             System.out.println(percepcaoListObstaclesSeen);
         }

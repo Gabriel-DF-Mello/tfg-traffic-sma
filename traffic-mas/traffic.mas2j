@@ -5,7 +5,7 @@ MAS traffic {
 	environment: IntegrationEnvironment
 
 	agents:
-		car;
+		vehicle;
 
 	aslSourcePath:
 		"src/asl";

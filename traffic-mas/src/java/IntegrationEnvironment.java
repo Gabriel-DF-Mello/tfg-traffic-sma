@@ -88,8 +88,9 @@ public class IntegrationEnvironment extends Environment {
 					        LinkedList<Agent> listObstaclesSeen = JsonUtil.gson.fromJson(agent.seen, listType);
 							//build perceptions and send to all agents
 					        StringBuffer agentPercept = new StringBuffer();
-					        agentPercept.append(agent.name);
-					        agentPercept.append("(");
+					        agentPercept.append(agent.name + "(");
+					        agentPercept.append(agent.id);
+					        agentPercept.append(",");
 					        agentPercept.append(agent.position_x);
 					        agentPercept.append(",");
 					        agentPercept.append(agent.position_y);
@@ -97,25 +98,26 @@ public class IntegrationEnvironment extends Environment {
 					        agentPercept.append(agent.speed);
 					        agentPercept.append(",");
 					        agentPercept.append(agent.facing);
-					        agentPercept.append(")");
-					        addPercept(ASSyntax.parseLiteral(agentPercept.toString()));
-					        
-					        StringBuffer percepcaoListObstaclesSeen;
-					        //id, name, x, y, speed, facing, state, seen, around
+					        agentPercept.append(")");					        
+					        addPercept(ASSyntax.parseLiteral(agentPercept.toString()));					        
+					        StringBuffer perceptListObstaclesSeen = new StringBuffer();
 					        for (Agent i : listObstaclesSeen) {
-					        	percepcaoListObstaclesSeen = new StringBuffer();
-					        	percepcaoListObstaclesSeen.append("seen(");
-					            percepcaoListObstaclesSeen.append(agent.name);
-					            percepcaoListObstaclesSeen.append(",");
-					            percepcaoListObstaclesSeen.append(i.name);
-					            percepcaoListObstaclesSeen.append(",");
-					            percepcaoListObstaclesSeen.append(i.position_x);
-					            percepcaoListObstaclesSeen.append(",");
-					            percepcaoListObstaclesSeen.append(i.position_y);
-					            percepcaoListObstaclesSeen.append(",");
-					            percepcaoListObstaclesSeen.append(i.facing);
-					            percepcaoListObstaclesSeen.append(")");
-					            addPercept(ASSyntax.parseLiteral(percepcaoListObstaclesSeen.toString()));
+					        	perceptListObstaclesSeen.append("seen(");
+					        	perceptListObstaclesSeen.append(agent.id);
+					            perceptListObstaclesSeen.append(",");
+					            perceptListObstaclesSeen.append(i.name);
+					            perceptListObstaclesSeen.append(",");
+					            perceptListObstaclesSeen.append(i.position_x);
+					            perceptListObstaclesSeen.append(",");
+					            perceptListObstaclesSeen.append(i.position_y);
+					            perceptListObstaclesSeen.append(",");
+					            perceptListObstaclesSeen.append(i.facing);
+					            perceptListObstaclesSeen.append(",");
+					            perceptListObstaclesSeen.append(i.speed);
+					            perceptListObstaclesSeen.append(",");
+					            perceptListObstaclesSeen.append(i.distance);
+					            perceptListObstaclesSeen.append(")");
+					            addPercept(ASSyntax.parseLiteral(perceptListObstaclesSeen.toString()));
 					        }
 							try {
 								Thread.sleep(1000);
