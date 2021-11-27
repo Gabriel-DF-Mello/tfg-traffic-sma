@@ -74,9 +74,9 @@ public class IntegrationEnvironment extends Environment {
 							jsonStringReceived = Communicator.receiveMessageTCP(client);
 							logger.info("A socket json received: " + jsonStringReceived);
 							//convert json into object
-							Agent agent = JsonUtil.gson.fromJson(jsonStringReceived, Agent.class);
+							Agent agent = JsonUtil.convertJson(jsonStringReceived);
 					        java.lang.reflect.Type listType = new TypeToken<LinkedList<Agent>>(){}.getType();
-					        LinkedList<Agent> listObstaclesSeen = JsonUtil.gson.fromJson(agent.seen, listType);
+					        LinkedList<Agent> listObstaclesSeen = JsonUtil.convertJson(agent.seen, listType);
 							//build perceptions and send to all agents
 					        StringBuffer agentPercept = new StringBuffer();
 					        agentPercept.append(agent.name + "(");
