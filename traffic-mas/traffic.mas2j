@@ -6,6 +6,8 @@ MAS traffic {
 
 	agents:
 		vehicle;
+	
+	classpath: "gson-2.8.8.jar";
 
 	aslSourcePath:
 		"src/asl";

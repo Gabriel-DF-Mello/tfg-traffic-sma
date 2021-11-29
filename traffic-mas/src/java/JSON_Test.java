@@ -1,11 +1,27 @@
 import java.util.LinkedList;
 
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.Gson;
+
+import java.io.*;
+import java.net.Socket;
 
 public class JSON_Test {
+	static Socket socket;
+
+    public static void criaClientSocket() {
+        try {
+            //cria um socket TCP para se conectar ao servidor de ip "localhost" porta 1234
+            socket = new Socket("localhost", 1234);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+	
 	public static void main(String a[]) {
+		criaClientSocket();
 		
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		
@@ -24,6 +40,9 @@ public class JSON_Test {
 		String jsonStringObject2Json = gson.toJson(car);
 		//System.out.println("O objeto car com seus obstaculos\n"+jsonStringObject2Json);
 
+		
+		Communicator.sendMessageTCP(socket, jsonStringObject2Json); //envia uma mensagem pela rede
+		
 		
 		//convert json into object
 		String jsonStringJson2Object = jsonStringObject2Json;
@@ -73,13 +92,7 @@ public class JSON_Test {
             percepcaoListObstaclesSeen.append(")");
             System.out.println(percepcaoListObstaclesSeen);
         }
-        
-        
-        		
-        		
-        		
-        
-        
-        
+
+                
 	}
 }

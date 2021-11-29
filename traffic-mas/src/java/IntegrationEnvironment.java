@@ -5,6 +5,7 @@ import jason.asSyntax.parser.*;
 import java.util.LinkedList;
 import java.util.logging.*;
 
+import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.net.DatagramSocket;
@@ -16,12 +17,14 @@ public class IntegrationEnvironment extends Environment {
 
 	ServerSocket server;
 	Socket client;
-	DatagramSocket socket;
+	DatagramSocket socket;	
+	Gson gson;
 
 	/** Called before the MAS execution with the args informed in .mas2j */
 	@Override
 	public void init(String[] args) {
 		super.init(args);
+		gson = new Gson();
 
 		try {
 			addPercept(ASSyntax.parseLiteral("simulation(on)"));
@@ -56,6 +59,7 @@ public class IntegrationEnvironment extends Environment {
 		try {
 			server = new ServerSocket(port, 10);
 			logger.info("Server MAS waiting Unity Simulator at port " + port);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -74,9 +78,9 @@ public class IntegrationEnvironment extends Environment {
 							jsonStringReceived = Communicator.receiveMessageTCP(client);
 							logger.info("A socket json received: " + jsonStringReceived);
 							//convert json into object
-							Agent agent = JsonUtil.convertJson(jsonStringReceived);
+							Agent agent = gson.fromJson(jsonStringReceived, Agent.class);
 					        java.lang.reflect.Type listType = new TypeToken<LinkedList<Agent>>(){}.getType();
-					        LinkedList<Agent> listObstaclesSeen = JsonUtil.convertJson(agent.seen, listType);
+					        LinkedList<Agent> listObstaclesSeen = gson.fromJson(agent.seen, listType);
 							//build perceptions and send to all agents
 					        StringBuffer agentPercept = new StringBuffer();
 					        agentPercept.append(agent.name + "(");
