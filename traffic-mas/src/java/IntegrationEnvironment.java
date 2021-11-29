@@ -80,7 +80,14 @@ public class IntegrationEnvironment extends Environment {
 							//convert json into object
 							Agent agent = gson.fromJson(jsonStringReceived, Agent.class);
 					        java.lang.reflect.Type listType = new TypeToken<LinkedList<Agent>>(){}.getType();
-					        LinkedList<Agent> listObstaclesSeen = gson.fromJson(agent.seen, listType);
+					        
+					        int stin = agent.seen.indexOf('[');
+					        int enin = agent.seen.indexOf(']');
+					        
+					        String subst = agent.seen.substring(stin, enin + 1);
+					        subst = subst.replace("\\", "");
+					        
+					        LinkedList<Agent> listObstaclesSeen = gson.fromJson(subst, listType);
 							//build perceptions and send to all agents
 					        StringBuffer agentPercept = new StringBuffer();
 					        agentPercept.append(agent.name + "(");
