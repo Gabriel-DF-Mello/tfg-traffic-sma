@@ -1043,6 +1043,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Car
       objectReference: {fileID: 0}
+    - target: {fileID: 5254519746278632473, guid: 37d7911618e25b84a863ca3f541aa7d0, type: 3}
+      propertyPath: type
+      value: Vehicle
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 37d7911618e25b84a863ca3f541aa7d0, type: 3}
 --- !u!1 &991912021

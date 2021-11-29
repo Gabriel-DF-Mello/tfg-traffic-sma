@@ -4,22 +4,20 @@ using UnityEngine;
 
 public class VehicleData : MonoBehaviour
 {
-    public float vision = 60f;
-    public string type;
+    private string type = "Vehicle";
     Sender s;
 
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(GenRoutine());
         GameObject simManager = GameObject.Find("SimManager");
         s = simManager.GetComponent<Sender>();
+        StartCoroutine(SendRoutine());
     }
 
     // Update is called once per frame
     void Update()
     {
-        //StartCoroutine(SendRoutine());
     }
 
     string GenerateData(bool hasLog)
@@ -76,7 +74,8 @@ public class VehicleData : MonoBehaviour
     }
     void SendData()
     {
-        s.Send(GenerateData(false));
+        string data = GenerateData(true);
+        s.Send(data);
     }
 
     IEnumerator GenRoutine()
