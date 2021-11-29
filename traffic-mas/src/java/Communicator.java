@@ -1,6 +1,4 @@
 import java.io.InputStream;
-import com.google.gson.GsonBuilder;
-import com.google.gson.Gson;
 import java.io.OutputStream;
 import java.io.IOException;
 import java.net.Socket;

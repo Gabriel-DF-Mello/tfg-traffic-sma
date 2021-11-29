@@ -7,8 +7,6 @@ import java.util.logging.*;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.google.gson.GsonBuilder;
-import com.google.gson.Gson;
 
 import java.net.DatagramSocket;
 import java.net.ServerSocket;
@@ -114,7 +112,9 @@ public class IntegrationEnvironment extends Environment {
 					            perceptListObstaclesSeen.append(",");
 					            perceptListObstaclesSeen.append(i.distance);
 					            perceptListObstaclesSeen.append(")");
+					            System.out.println(perceptListObstaclesSeen);
 					            addPercept(ASSyntax.parseLiteral(perceptListObstaclesSeen.toString()));
+					            perceptListObstaclesSeen = new StringBuffer();
 					        }
 							try {
 								Thread.sleep(1000);
