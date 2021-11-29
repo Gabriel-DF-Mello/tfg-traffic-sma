@@ -28,7 +28,7 @@ public class JSON_Test {
 		//CONVERTENDO OBJETOS EM JSON	
 		LinkedList<Agent> listObstaclesSeen = new LinkedList<Agent>();
 		//int id, String name, float position_x, float position_y, String facing, float speed, float distance, String state, String seen, String around
-		listObstaclesSeen.add(new Agent(100, "semaphore", 100, 10, "left", 0, 25 ,"green", "", ""));
+		listObstaclesSeen.add(new Agent(100, "semaphore", 100, 10, "left", 0, 25 ,"yellow", "", ""));
 		listObstaclesSeen.add(new Agent(500,"pedestrian", 56, 12, "up", 0, 25, "", "", ""));
 		listObstaclesSeen.add(new Agent(501,"pedestrian", 546, 120, "left", 2, 25, "", "", ""));
 		String listObstaclesSeenString = gson.toJson(listObstaclesSeen);
