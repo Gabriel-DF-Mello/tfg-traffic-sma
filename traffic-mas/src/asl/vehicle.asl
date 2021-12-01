@@ -2,6 +2,9 @@
 +simulation(on) : true
 	<-
 	.print("I am here.... ").
+	
++noObstacles : vehicle(ID,_,_,Facing,AgtSpeed)
+	<- setUp(ID).
 
 //veiculo -> name(id,x,y,facing,speed)
 //id, name, position_x, position_y, facing, speed, distance, state, seen, around
@@ -37,7 +40,6 @@
 	<- .print("i am seeing a PEDESTRIAN");
        .print("it is necessary set the speed");
        setDown(ID).
-       
        
        
        

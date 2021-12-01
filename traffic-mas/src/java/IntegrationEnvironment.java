@@ -41,7 +41,7 @@ public class IntegrationEnvironment extends Environment {
 			try {
 				String message = action.getFunctor() + ":"+ action.getTerm(0).toString();
 				Communicator.sendMessageTCP(client, message);
-				//logger.info(message);
+				logger.info(message);
 				Thread.sleep(200);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -73,6 +73,7 @@ public class IntegrationEnvironment extends Environment {
 			new Thread() {
 				public void run() {
 					String jsonStringReceived = new String();
+					StringBuffer perceptListObstaclesSeen = new StringBuffer();
 					logger.info("All threads to handle percepts are online!!");
 					try {
 						while (true) {
@@ -83,7 +84,7 @@ public class IntegrationEnvironment extends Environment {
 								break;
 								
 							} else {
-								logger.info("A socket json received: " + jsonStringReceived);
+//								logger.info("A socket json received: " + jsonStringReceived);
 								//convert json into object
 								Agent agent = gson.fromJson(jsonStringReceived, Agent.class);
 						        java.lang.reflect.Type listType = new TypeToken<LinkedList<Agent>>(){}.getType();
@@ -112,10 +113,10 @@ public class IntegrationEnvironment extends Environment {
 						        addPercept(ASSyntax.parseLiteral(agentPercept.toString()));
 						        
 						        if (listObstaclesSeen.isEmpty()) {
-						        	logger.info("No obstacles seen by the agent.");
+						        	addPercept(ASSyntax.parseLiteral("noObstacles"));
 						        } else {
 						        	//id, name, position_x, position_y, facing, speed, distance, state, seen, around
-						        	StringBuffer perceptListObstaclesSeen = new StringBuffer();
+						            
 							        for (Agent i : listObstaclesSeen) {
 							        	perceptListObstaclesSeen.append("seen(");
 							        	perceptListObstaclesSeen.append(agent.id);
@@ -141,10 +142,14 @@ public class IntegrationEnvironment extends Environment {
 							        }
 						        }						        
 								try {
-									Thread.sleep(1000);
+									Thread.sleep(990);
 									// remove percepts added before 1000 ms
-									//removePercept(ASSyntax.parseLiteral(agentPercept.toString()));		
-									//removePercept(ASSyntax.parseLiteral(perceptListObstaclesSeen.toString()));
+									if (!listObstaclesSeen.isEmpty()) {										
+										removePercept(ASSyntax.parseLiteral(perceptListObstaclesSeen.toString()));
+									} else {
+										removePercept(ASSyntax.parseLiteral("noObstacles"));
+									}
+									removePercept(ASSyntax.parseLiteral(agentPercept.toString()));
 								} catch (Exception e) {
 									logger.info("Some problems to synchronize!!");
 								}
