@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class VehicleData : MonoBehaviour
 {
-    private string type = "Vehicle";
+    private string type = "vehicle";
     Sender s;
 
     // Start is called before the first frame update
@@ -56,25 +56,25 @@ public class VehicleData : MonoBehaviour
     {
         if (((angle >= 315) && (angle <= 360)) || ((angle >= 0) && (angle < 45)))
         {
-            return "Up";
+            return "up";
         }
         else if ((angle >= 45) && (angle < 135))
         {
-            return "Right";
+            return "right";
         }
         else if ((angle >= 135) && (angle < 225))
         {
-            return "Down";
+            return "down";
         }
         else if ((angle >= 225) && (angle < 315))
         {
-            return "Left";
+            return "left";
         }
-        return "Up";
+        return "up";
     }
     void SendData()
     {
-        string data = GenerateData(true);
+        string data = GenerateData(false);
         s.Send(data);
     }
 

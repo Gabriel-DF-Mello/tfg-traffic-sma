@@ -1047,6 +1047,14 @@ PrefabInstance:
       propertyPath: type
       value: Vehicle
       objectReference: {fileID: 0}
+    - target: {fileID: 5254519746278632474, guid: 37d7911618e25b84a863ca3f541aa7d0, type: 3}
+      propertyPath: brk
+      value: 2.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5254519746278632474, guid: 37d7911618e25b84a863ca3f541aa7d0, type: 3}
+      propertyPath: accel
+      value: 1.2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 37d7911618e25b84a863ca3f541aa7d0, type: 3}
 --- !u!1 &991912021

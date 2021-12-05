@@ -109,7 +109,12 @@ public class IntegrationEnvironment extends Environment {
 						        agentPercept.append(agent.facing);
 						        agentPercept.append(",");
 						        agentPercept.append(agent.speed);
-						        agentPercept.append(")");					        
+						        agentPercept.append(",");
+						        agentPercept.append(agent.distance);
+						        agentPercept.append(",");
+					            if (agent.state.equals("")) agentPercept.append("_");
+					            else agentPercept.append(agent.state);
+					            agentPercept.append(")");				        
 						        addPercept(ASSyntax.parseLiteral(agentPercept.toString()));
 						        
 						        if (listObstaclesSeen.isEmpty()) {

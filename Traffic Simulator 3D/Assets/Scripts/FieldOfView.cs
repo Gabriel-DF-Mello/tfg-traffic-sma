@@ -35,7 +35,7 @@ public class FieldOfView : MonoBehaviour
 			Info info = new Info();
 
 			info.id = hitCollider.gameObject.GetInstanceID();
-			info.name = hitCollider.gameObject.tag;
+			info.name = hitCollider.gameObject.tag.ToLower();
 			info.position_x = obstacleRelative.x;
 			info.position_y = obstacleRelative.z;
 			info.facing = AngleToString(hitCollider.transform.rotation.eulerAngles.y);
@@ -44,7 +44,7 @@ public class FieldOfView : MonoBehaviour
 			info.around = "";
 
 			if ((hitCollider.gameObject.tag == "Pedestrian") || (hitCollider.gameObject.tag == "Vehicle")) { //not semaphore
-				info.state = "None";
+				info.state = "none";
 				if(hitCollider.gameObject.tag == "Vehicle") {
 					info.speed = hitCollider.gameObject.GetComponent<VehicleMovement>().speed;
                 }
@@ -77,21 +77,21 @@ public class FieldOfView : MonoBehaviour
 	{
 		if (((angle >= 315) && (angle <= 360)) || ((angle >= 0) && (angle < 45)))
 		{
-			return "Up";
+			return "up";
 		}
 		else if ((angle >= 45) && (angle < 135))
 		{
-			return "Right";
+			return "right";
 		}
 		else if ((angle >= 135) && (angle < 225))
 		{
-			return "Down";
+			return "down";
 		}
 		else if ((angle >= 225) && (angle < 315))
 		{
-			return "Left";
+			return "left";
 		}
-		return "Up";
+		return "up";
 	}
 
 	public Vector3 DirFromAngle(float angleInDegrees, bool angleIsGlobal)
