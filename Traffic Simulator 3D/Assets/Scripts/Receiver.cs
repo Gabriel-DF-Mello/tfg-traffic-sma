@@ -10,6 +10,7 @@ using System;
 public class Receiver : MonoBehaviour
 {
     public static Socket socket;
+    public static string message = "";
     private static byte[] _receiveBuffer = new byte[8142];
     private void Awake()
     {
@@ -57,13 +58,14 @@ public class Receiver : MonoBehaviour
         Buffer.BlockCopy(_receiveBuffer, 0, recData, 0, received);
 
         //Process data here the way you want , all your bytes will be stored in recData
-        String rcv = System.Text.Encoding.ASCII.GetString(recData);
-        Debug.Log("SMA mandou: " + rcv);
-
+        String str = System.Text.Encoding.Default.GetString(recData);
+        message = str;
+        Debug.Log("SMA mandou: " + str);
 
         //Start receiving again
         socket.BeginReceive(_receiveBuffer, 0, _receiveBuffer.Length, SocketFlags.None, new AsyncCallback(ReceiveCallback), null);
     }
+
 
     public static String receiveMessage(Socket s)
     {

@@ -1001,7 +1001,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5254519746278632470, guid: 37d7911618e25b84a863ca3f541aa7d0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.582745
+      value: 2.2
       objectReference: {fileID: 0}
     - target: {fileID: 5254519746278632470, guid: 37d7911618e25b84a863ca3f541aa7d0, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1009,7 +1009,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5254519746278632470, guid: 37d7911618e25b84a863ca3f541aa7d0, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -50.2
+      value: -155.4
       objectReference: {fileID: 0}
     - target: {fileID: 5254519746278632470, guid: 37d7911618e25b84a863ca3f541aa7d0, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1049,11 +1049,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5254519746278632474, guid: 37d7911618e25b84a863ca3f541aa7d0, type: 3}
       propertyPath: brk
-      value: 2.2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5254519746278632474, guid: 37d7911618e25b84a863ca3f541aa7d0, type: 3}
       propertyPath: accel
-      value: 1.2
+      value: 0.6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 37d7911618e25b84a863ca3f541aa7d0, type: 3}
@@ -1349,7 +1349,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 62
+  field of view: 49
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -1374,13 +1374,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1209616671}
-  m_LocalRotation: {x: 0.45616454, y: -0.46838143, z: 0.3094274, w: 0.69049793}
-  m_LocalPosition: {x: 2.6, y: 29.4, z: -2.7}
+  m_LocalRotation: {x: 0.480126, y: -0.51493824, z: 0.45008042, w: 0.5493134}
+  m_LocalPosition: {x: 3.71, y: 71.07, z: -6.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 66.9, y: -68.3, z: 0}
+  m_LocalEulerAnglesHint: {x: 82.31, y: -86.3, z: 0}
 --- !u!1001 &1302446193
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1678,9 +1678,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 865783415376027124, guid: 0d560383439535144a944ff87bf44650, type: 3}
+      propertyPath: rate
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 865783415376027124, guid: 0d560383439535144a944ff87bf44650, type: 3}
       propertyPath: pedestrian
       value: 
       objectReference: {fileID: 1531851933673848646, guid: 2dcc5f32e7254734e8553403bbda6888, type: 3}
+    - target: {fileID: 865783415376027124, guid: 0d560383439535144a944ff87bf44650, type: 3}
+      propertyPath: timeBetweenWaves
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 3578240048380362335, guid: 0d560383439535144a944ff87bf44650, type: 3}
       propertyPath: m_Name
       value: PedestrianSpawner

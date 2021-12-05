@@ -39,7 +39,7 @@ public class Communicator {
 	        toSendLenBytes[1] = (byte)((toSendLen >> 8) & 0xff);
 	        toSendLenBytes[2] = (byte)((toSendLen >> 16) & 0xff);
 	        toSendLenBytes[3] = (byte)((toSendLen >> 24) & 0xff);
-	        os.write(toSendLenBytes);
+	        //os.write(toSendLenBytes);
 	        os.write(toSendBytes);
 	    	
 		} catch (IOException e1) {

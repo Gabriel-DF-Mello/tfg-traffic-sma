@@ -2,6 +2,7 @@ import jason.asSyntax.*;
 import jason.environment.*;
 import jason.asSyntax.parser.*;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.logging.*;
 
@@ -82,9 +83,8 @@ public class IntegrationEnvironment extends Environment {
 								logger.info("Unity simulator did not send anything!");
 								server.close();
 								break;
-								
 							} else {
-//								logger.info("A socket json received: " + jsonStringReceived);
+								//logger.info("A socket json received: " + jsonStringReceived);
 								//convert json into object
 								Agent agent = gson.fromJson(jsonStringReceived, Agent.class);
 						        java.lang.reflect.Type listType = new TypeToken<LinkedList<Agent>>(){}.getType();
@@ -96,6 +96,8 @@ public class IntegrationEnvironment extends Environment {
 						        subst = subst.replace("\\", "");
 						        
 						        LinkedList<Agent> listObstaclesSeen = gson.fromJson(subst, listType);
+						        ArrayList<StringBuffer> obstaclePercepts = new ArrayList<StringBuffer>();
+						        
 								//build perceptions and send to all agents
 						        //id, name, position_x, position_y, facing, speed, distance, state, seen, around
 						        StringBuffer agentPercept = new StringBuffer();
@@ -118,10 +120,9 @@ public class IntegrationEnvironment extends Environment {
 						        addPercept(ASSyntax.parseLiteral(agentPercept.toString()));
 						        
 						        if (listObstaclesSeen.isEmpty()) {
-						        	addPercept(ASSyntax.parseLiteral("noObstacles"));
+						        	addPercept(ASSyntax.parseLiteral("noObstacles(" + agent.id + ")"));
 						        } else {
 						        	//id, name, position_x, position_y, facing, speed, distance, state, seen, around
-						            
 							        for (Agent i : listObstaclesSeen) {
 							        	perceptListObstaclesSeen.append("seen(");
 							        	perceptListObstaclesSeen.append(agent.id);
@@ -143,18 +144,22 @@ public class IntegrationEnvironment extends Environment {
 							            perceptListObstaclesSeen.append(")");
 							            System.out.println(perceptListObstaclesSeen);
 							            addPercept(ASSyntax.parseLiteral(perceptListObstaclesSeen.toString()));
+							            obstaclePercepts.add(perceptListObstaclesSeen);
 							            perceptListObstaclesSeen = new StringBuffer();
 							        }
 						        }						        
 								try {
-									Thread.sleep(990);
+									Thread.sleep(400);
 									// remove percepts added before 1000 ms
-									if (!listObstaclesSeen.isEmpty()) {										
-										removePercept(ASSyntax.parseLiteral(perceptListObstaclesSeen.toString()));
+									/*if (!listObstaclesSeen.isEmpty()) {									
+										for(StringBuffer s : obstaclePercepts) {
+											removePercept(ASSyntax.parseLiteral(s.toString()));
+										}
 									} else {
 										removePercept(ASSyntax.parseLiteral("noObstacles"));
-									}
-									removePercept(ASSyntax.parseLiteral(agentPercept.toString()));
+									}*/
+									//removePercept(ASSyntax.parseLiteral(agentPercept.toString()));
+									clearPercepts();
 								} catch (Exception e) {
 									logger.info("Some problems to synchronize!!");
 								}

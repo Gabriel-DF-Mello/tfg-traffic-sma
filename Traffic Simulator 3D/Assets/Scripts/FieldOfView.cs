@@ -35,6 +35,12 @@ public class FieldOfView : MonoBehaviour
 			Info info = new Info();
 
 			info.id = hitCollider.gameObject.GetInstanceID();
+
+			if (info.id == gameObject.GetInstanceID())
+            {
+				continue;
+            }
+
 			info.name = hitCollider.gameObject.tag.ToLower();
 			info.position_x = obstacleRelative.x;
 			info.position_y = obstacleRelative.z;

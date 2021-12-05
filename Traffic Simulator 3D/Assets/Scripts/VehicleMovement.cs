@@ -7,16 +7,18 @@ public class VehicleMovement : MonoBehaviour
     float startSpeed = 5f;
     float startTurnSpeed = 5.2f;
     public float speed;
-    public float accel = 0.1f;
-    public float brk = 0.2f;
+    public float accel = 0.5f;
+    public float brk = 0.8f;
     public float turnSpeed;
     public bool canDie;
 
     public int pathIndex = 0;
     private Transform[] path;
     private Transform target;
-    private float targetSpeed = 30f;
-    private bool breaking = false;
+
+    public float targetSpeed = 25f;
+    public bool breaking = false;
+
     private int pointIndex = 0;
 
     // Start is called before the first frame update
@@ -35,9 +37,10 @@ public class VehicleMovement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        moveToTargetSpeed();
+        ParseMessage();
+        MoveToTargetSpeed();
         Vector3 dir = (target.position - transform.position).normalized;
         transform.Translate(dir * speed * Time.deltaTime, Space.World);
 
@@ -74,7 +77,7 @@ public class VehicleMovement : MonoBehaviour
         }
     }
 
-    void moveToTargetSpeed(){
+    void MoveToTargetSpeed(){
         if (breaking)
         {
             if(speed <= 0)
@@ -103,6 +106,43 @@ public class VehicleMovement : MonoBehaviour
             {
                 speed = speed - brk;
                 return;
+            }
+        }
+    }
+
+    void ParseMessage()
+    {
+        string[] array = Receiver.message.Split(':');
+        //Debug.Log(Receiver.message);
+
+        if (array.Length < 2)
+        {
+            return;
+        }
+
+        int id = System.Int32.Parse(array[1]);
+
+        if(gameObject.GetInstanceID() == id)
+        {
+            if (array[0] == "setUp")
+            {
+                breaking = false;
+                targetSpeed = 25f;
+
+                Debug.Log("Aumentando velocidade");
+            }
+            else if (array[0] == "setDown")
+            {
+                breaking = false;
+                targetSpeed = 5f;
+
+                Debug.Log("Reduzindo velocidade");
+            }
+            else if (array[0] == "break")
+            {
+                breaking = true;
+
+                Debug.Log("Freiando");
             }
         }
     }

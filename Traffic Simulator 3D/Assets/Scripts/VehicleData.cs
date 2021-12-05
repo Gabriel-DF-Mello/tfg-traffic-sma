@@ -10,6 +10,8 @@ public class VehicleData : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameObject.name = type + gameObject.GetInstanceID().ToString();
+
         GameObject simManager = GameObject.Find("SimManager");
         s = simManager.GetComponent<Sender>();
         StartCoroutine(SendRoutine());
@@ -92,7 +94,7 @@ public class VehicleData : MonoBehaviour
         while (true)
         {
             SendData();
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.6f);
         }
     }
 }
