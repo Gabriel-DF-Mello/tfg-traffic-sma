@@ -1,7 +1,7 @@
 # tfg-traffic-sma
 
 A system to simulate the flow of autonomous vehicles in traffic. 
-The system consists of two separate applications, the simulation environment, and an artificial intelligence responsible for controlling the movement of the vehicles. The applications communicate during runtime to execute the simulation. 
+The system consists of two separate applications, the simulation environment, and a multiagent system responsible for controlling the movement of the vehicles. The applications communicate during runtime to execute the simulation. 
 The system was developed using Java Jason and C# Unity
 
 -----------
